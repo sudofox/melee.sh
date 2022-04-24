@@ -15,13 +15,10 @@ Melee.sh will attempt to use the first one it finds. If an audio utility is not 
 
 ## Installation 
 
-Download the melee.sh repository to your directory of choice, for example, `~/bin/`, and then add it to your `.bashrc` (or `.bash_profile`) like so:
+Download the melee.sh repository to your directory of choice, for example, `~/.local/bin/`, and then add it to your `.bashrc` (or `.bash_profile`) like so:
 
 ```bash
-
-if [ -f ~/bin/melee.sh/melee.sh ]; then
-	. ~/bin/melee.sh/melee.sh
-fi
+. ~/.local/bin/melee.sh/melee.sh
 ```
 
 ## Usage
@@ -48,13 +45,4 @@ Access: 2022-04-22 13:30:56.057428192 -0400
 Modify: 2022-04-22 13:30:56.057428192 -0400
 Change: 2022-04-22 13:30:56.057428192 -0400
  Birth: -
-```
-
-### Troubleshooting
-
-If you would like to see which audio playback utility melee is using, you can run `melee_sound_util`.
-
-```bash
-$ melee_sound_util 
-pw-play
 ```
