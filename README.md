@@ -15,7 +15,7 @@ Melee.sh will attempt to use the first one it finds. If an audio utility is not 
 
 ## Installation 
 
-Download the melee.sh repository to your directory of choice, for example, `~/.local/bin/`, and then add it to your `.bashrc` (or `.bash_profile`) like so:
+Download the melee.sh repository to your directory of choice, for example, `~/.local/bin/`, and then add the following line to your `.bashrc`:
 
 ```bash
 . ~/.local/bin/melee.sh/melee.sh
