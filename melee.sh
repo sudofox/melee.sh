@@ -98,12 +98,12 @@ melee() {
     esac
 
     success() {
-        eval "($PLAY_COMMAND $MELEE_DIR/sounds/success.wav > /dev/null 2>&1 & disown)"
+        eval "($PLAY_COMMAND $MELEE_DIR/sounds/success.wav > /dev/null 2>&1 & disown 2> /dev/null)"
         return 0
     }
     failure() {
         local rc=$?
-        eval "($PLAY_COMMAND $MELEE_DIR/sounds/failure.wav > /dev/null 2>&1 & disown)"
+        eval "($PLAY_COMMAND $MELEE_DIR/sounds/failure.wav > /dev/null 2>&1 & disown 2> /dev/null)"
         return $rc
     }
 
