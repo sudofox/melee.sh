@@ -2,8 +2,47 @@
 # sudofox/melee.sh
 
 melee() {
-    MELEE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-    
+    current_shell() {
+        # ps displays current process
+        # cut isolates shell
+        # xargs removes leading/trailing whitespace
+        CUR_SH=$(ps -hp $$ | cut -d ' ' -f 8 | xargs)
+
+        case $CUR_SH in
+            zsh|-zsh)
+                echo "zsh"
+                return 0
+            ;;
+
+            bash|-bash)
+                echo "bash"
+                return 0
+            ;;
+
+            *)
+                echo "unsupported"
+                return 1
+            ;;
+        esac
+    }
+
+    case $(current_shell) in
+        zsh)
+            MELEE_DIR=${${(%):-%x:h}:h}
+        ;;
+
+        bash)
+            MELEE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+        ;;
+
+        *)
+            echo -e "melee.sh: Current shell is unsupported."
+            echo -e "    >> Please use one of the following: bash, zsh"
+            eval "$@"
+            return $?
+        ;;
+    esac
+
     sound_util() { # Can be run independently for debugging / verification purposes.
         # FFPLAY (ffmpeg)
         if type ffplay >/dev/null 2>&1; then
@@ -59,14 +98,15 @@ melee() {
     esac
 
     success() {
-        ( $PLAY_COMMAND "$MELEE_DIR"/sounds/success.wav > /dev/null 2>&1 & disown)
+        eval "($PLAY_COMMAND $MELEE_DIR/sounds/success.wav > /dev/null 2>&1 & disown)"
         return 0
     }
     failure() {
         local rc=$?
-        ( $PLAY_COMMAND "$MELEE_DIR"/sounds/failure.wav > /dev/null 2>&1 & disown)
+        eval "($PLAY_COMMAND $MELEE_DIR/sounds/failure.wav > /dev/null 2>&1 & disown)"
         return $rc
     }
+
     # eval is used here to allow for alias resolution
     eval "$@" && success || failure
     return $?
